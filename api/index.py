@@ -53,3 +53,10 @@ def predict(data: Input):
         "probability_benign": round(float(proba[1]), 4),
         "warnings": warnings,
     }
+
+@app.middleware("http")
+async def strip_vercel_prefix(request, call_next):
+    p = request.scope["path"]
+    if p.startswith("/api/index"):
+        request.scope["path"] = p[len("/api/index"):] or "/"
+    return await call_next(request)
