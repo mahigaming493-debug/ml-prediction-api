@@ -1,0 +1,47 @@
+{
+  "name": "ML Prediction Webhook",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "predict",
+        "responseMode": "responseNode",
+        "options": { "allowedOrigins": "*" }
+      },
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [200, 300],
+      "webhookId": "ml-predict"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://YOUR-APP.vercel.app/predict",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ worst_perimeter: Number($json.body.worst_perimeter), mean_concave_points: Number($json.body.mean_concave_points), area_error: Number($json.body.area_error), worst_concavity: Number($json.body.worst_concavity), worst_compactness: Number($json.body.worst_compactness), mean_compactness: Number($json.body.mean_compactness) }) }}",
+        "options": {}
+      },
+      "name": "Call ML API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [440, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {}
+      },
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [680, 300]
+    }
+  ],
+  "connections": {
+    "Webhook": { "main": [[{ "node": "Call ML API", "type": "main", "index": 0 }]] },
+    "Call ML API": { "main": [[{ "node": "Respond to Webhook", "type": "main", "index": 0 }]] }
+  }
+}

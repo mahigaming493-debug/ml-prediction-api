@@ -1,0 +1,55 @@
+{
+  "features": [
+    "worst perimeter",
+    "mean concave points",
+    "area error",
+    "worst concavity",
+    "worst compactness",
+    "mean compactness"
+  ],
+  "target_mapping": {
+    "0": "malignant",
+    "1": "benign"
+  },
+  "feature_ranges": {
+    "worst perimeter": [
+      50.41,
+      251.2
+    ],
+    "mean concave points": [
+      0.0,
+      0.2012
+    ],
+    "area error": [
+      6.802,
+      542.2
+    ],
+    "worst concavity": [
+      0.0,
+      1.252
+    ],
+    "worst compactness": [
+      0.02729,
+      1.058
+    ],
+    "mean compactness": [
+      0.01938,
+      0.3454
+    ]
+  },
+  "metrics": {
+    "model": "LogisticRegression",
+    "best_params": {
+      "m__C": 10
+    },
+    "cv_f1": 0.9568,
+    "test_f1": 0.951,
+    "test_roc_auc": 0.9888,
+    "test_recall_malignant": 0.9286,
+    "baseline_cv_f1": {
+      "LogisticRegression": 0.9516285386557695,
+      "SVC": 0.948441825345825,
+      "RandomForest": 0.9463163581747652
+    }
+  }
+}
